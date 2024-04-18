@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GenderController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\UserController;
@@ -26,11 +27,14 @@ Route::prefix('auth')->group(function () {
    Route::post('/register', [RegisterController::class, 'store']);
 });
 
-
 Route::prefix('user')->group(function () {
     Route::get('/list', [UserController::class, 'index']);
     Route::post('/store', [UserController::class, 'store']);
     Route::post('/update/{id}', [UserController::class, 'update']);
     Route::get('/show/{id}', [UserController::class, 'show']);
     Route::delete('/delete/{id}', [UserController::class, 'destroy']);
+});
+
+Route::prefix('gender')->middleware('auth:sanctum')->group(function (){
+    Route::post('/store', [GenderController::class, 'store'])->name('gender.store');
 });
